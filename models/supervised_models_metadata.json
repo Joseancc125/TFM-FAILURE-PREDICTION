@@ -1,0 +1,46 @@
+{
+  "feature_columns": [
+    "footfall",
+    "tempMode",
+    "AQ",
+    "USS",
+    "CS",
+    "VOC",
+    "RP",
+    "IP",
+    "Temperature",
+    "air_risk",
+    "thermal_load",
+    "sensor_gap",
+    "mechanical_pressure",
+    "air_pressure_ratio",
+    "control_balance",
+    "operating_intensity",
+    "sensor_stability",
+    "risk_score",
+    "machine_health_index"
+  ],
+  "model_summaries": {
+    "random_forest": {
+      "best_threshold": 0.4375,
+      "oof_f1": 0.893,
+      "train_roc_auc": 0.999,
+      "test_roc_auc": 0.9732,
+      "model_path": "C:\\Users\\josit\\Desktop\\TFM-FAILURE-PREDICTION\\models\\random_forest.joblib"
+    },
+    "xgboost": {
+      "best_threshold": 0.4098,
+      "oof_f1": 0.8872,
+      "train_roc_auc": 1.0,
+      "test_roc_auc": 0.9659,
+      "model_path": "C:\\Users\\josit\\Desktop\\TFM-FAILURE-PREDICTION\\models\\xgboost.joblib"
+    },
+    "lightgbm": {
+      "best_threshold": 0.3616,
+      "oof_f1": 0.8826,
+      "train_roc_auc": 1.0,
+      "test_roc_auc": 0.9611,
+      "model_path": "C:\\Users\\josit\\Desktop\\TFM-FAILURE-PREDICTION\\models\\lightgbm.joblib"
+    }
+  }
+}
