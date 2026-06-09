@@ -1,0 +1,6 @@
+metric,value
+best_model,random_forest
+best_test_roc_auc,0.9732
+best_test_f1,0.9157
+sample_rows_used,189
+feature_count,19

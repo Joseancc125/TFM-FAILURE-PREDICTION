@@ -101,3 +101,41 @@ python -m src.models.phase5_supervised_modeling
 - `models/supervised_models_metadata.json`
 - `data/processed/supervised_test_predictions.csv`
 - `reports/phase5/supervised_model_comparison.csv`
+
+## Fase 6
+
+La interpretabilidad está en `src/interpretability/phase6_interpretability.py`.
+
+### Ejecución
+
+```bash
+python -m src.interpretability.phase6_interpretability
+```
+
+### Salidas generadas
+
+- `reports/phase6/feature_importance.csv`
+- `reports/phase6/shap_importance.csv`
+- `reports/phase6/interpretability_summary.csv`
+- `reports/figures/phase6/feature_importance.png`
+- `reports/figures/phase6/shap_importance.png`
+
+## Fase 7
+
+El dashboard está en `dashboard/app.py`.
+
+### Ejecución
+
+```bash
+streamlit run dashboard/app.py
+```
+
+### Incluye
+
+- Comparativa de modelos supervisados
+- Métricas del mejor modelo
+- Distribución de probabilidades de fallo
+- Matriz de confusión
+- Importancia global y `SHAP`
+- Anomalías detectadas
+- Índice de salud de la máquina
