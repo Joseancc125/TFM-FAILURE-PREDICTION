@@ -1,0 +1,8 @@
+metric,value
+train_rows,754.0
+test_rows,189.0
+full_rows,943.0
+engineered_columns_created,11.0
+train_fail_rate_pct,41.64
+test_fail_rate_pct,41.8
+full_fail_rate_pct,41.68

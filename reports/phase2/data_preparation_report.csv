@@ -1,0 +1,6 @@
+metric,value
+rows_original,944
+rows_cleaned,943
+duplicates_removed,1
+missing_values_original,0
+missing_values_cleaned,0

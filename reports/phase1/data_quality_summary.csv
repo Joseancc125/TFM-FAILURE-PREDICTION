@@ -1,0 +1,11 @@
+column,dtype,missing_values,missing_pct,unique_values
+footfall,int64,0,0.0,99
+tempMode,int64,0,0.0,8
+AQ,int64,0,0.0,7
+USS,int64,0,0.0,7
+CS,int64,0,0.0,7
+VOC,int64,0,0.0,7
+RP,int64,0,0.0,71
+IP,int64,0,0.0,7
+Temperature,int64,0,0.0,24
+fail,int64,0,0.0,2
