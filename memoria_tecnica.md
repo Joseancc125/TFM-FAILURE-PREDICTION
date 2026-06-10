@@ -106,6 +106,16 @@ La interfaz prioriza:
 
 La información técnica completa queda disponible, pero no domina la primera lectura del panel.
 
+### Capturas del dashboard
+
+Vista ejecutiva principal del dashboard:
+
+![Dashboard - vista ejecutiva](Captura%20de%20pantalla%202026-06-10%20220045.png)
+
+Vista complementaria con detalle operativo:
+
+![Dashboard - detalle operativo](Captura%20de%20pantalla%202026-06-10%20220056.png)
+
 ## 11. Conclusión general
 
 La solución desarrollada cumple el objetivo principal del TFM: convertir datos de sensores en una herramienta práctica para anticipar fallos y apoyar decisiones de mantenimiento.

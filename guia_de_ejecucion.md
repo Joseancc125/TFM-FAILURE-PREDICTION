@@ -6,10 +6,20 @@ Esta guía explica cómo preparar el entorno y ejecutar cada fase del proyecto d
 
 - Windows 10 o superior.
 - Python instalado.
-- Recomendado: entorno virtual `.venv`.
+- Recomendado: entorno virtual `.venv` para evitar errores de versiones y conflictos de dependencias entre proyectos.
 - Archivo de datos `data.csv` disponible en la raíz del proyecto.
 
-## 2. Activación del entorno virtual
+## 2. Crear el entorno virtual (si no existe)
+
+Este proyecto no incluye el entorno virtual por defecto en el repositorio. Debes crearlo en tu equipo antes de instalar dependencias.
+
+Desde PowerShell, en la raíz del proyecto:
+
+```powershell
+python -m venv .venv
+```
+
+## 3. Activación del entorno virtual
 
 Desde PowerShell, situado en la raíz del proyecto:
 
@@ -17,13 +27,7 @@ Desde PowerShell, situado en la raíz del proyecto:
 .\.venv\Scripts\Activate.ps1
 ```
 
-Si el entorno virtual no existe todavía, créalo antes:
-
-```powershell
-python -m venv .venv
-```
-
-## 3. Instalación de dependencias
+## 4. Instalación de dependencias
 
 Instala las librerías necesarias desde `requirements.txt`:
 
@@ -32,7 +36,7 @@ python -m pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-## 4. Orden recomendado de ejecución
+## 5. Orden recomendado de ejecución
 
 Ejecuta las fases en este orden para reproducir el proyecto completo:
 
@@ -44,7 +48,21 @@ Ejecuta las fases en este orden para reproducir el proyecto completo:
 6. interpretabilidad;
 7. dashboard.
 
-## 5. Ejecución por fases
+## 6. Versiones usadas en este proyecto
+
+Versiones verificadas en el entorno local del proyecto:
+
+- Python: `3.14.3`
+- streamlit: `1.58.0`
+- pandas: `2.3.3`
+- scikit-learn: `1.9.0`
+- xgboost: `3.2.0`
+- lightgbm: `4.6.0`
+- shap: `0.52.0`
+
+Si instalas versiones distintas, podrían aparecer diferencias en resultados o incompatibilidades puntuales.
+
+## 7. Ejecución por fases
 
 ### Fase 1. Análisis exploratorio
 
@@ -137,7 +155,7 @@ python -m streamlit run dashboard/app.py
 
 El dashboard se abrirá normalmente en `http://localhost:8501`.
 
-## 6. Verificación rápida
+## 8. Verificación rápida
 
 Si quieres comprobar que todo está correcto tras ejecutar las fases, revisa que existan los siguientes archivos clave:
 
@@ -146,14 +164,14 @@ Si quieres comprobar que todo está correcto tras ejecutar las fases, revisa que
 - `data/processed/supervised_test_predictions.csv`
 - `data/processed/test_anomaly_scores.csv`
 
-## 7. Recomendaciones prácticas
+## 9. Recomendaciones prácticas
 
 - Ejecuta las fases en orden, ya que cada una depende de las salidas de la anterior.
 - Si cambias el dataset, vuelve a ejecutar desde la fase 1 o, como mínimo, desde la fase 2.
 - Antes de abrir el dashboard, asegúrate de haber generado las salidas de las fases 5 y 6.
 - Si el dashboard no arranca, verifica que el entorno virtual esté activado y que `streamlit` esté instalado.
 
-## 8. Comando útil de comprobación
+## 10. Comando útil de comprobación
 
 Para validar rápidamente que el archivo del dashboard no tiene errores de sintaxis:
 
@@ -161,6 +179,6 @@ Para validar rápidamente que el archivo del dashboard no tiene errores de sinta
 python -m py_compile dashboard/app.py
 ```
 
-## 9. Observación final
+## 11. Observación final
 
 La guía está pensada para reproducir la solución completa con el menor número de pasos posible y sin depender de herramientas externas adicionales.

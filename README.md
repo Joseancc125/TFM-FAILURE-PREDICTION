@@ -2,6 +2,10 @@
 
 Sistema de mantenimiento predictivo para equipos industriales basado en machine learning. El proyecto transforma lecturas de sensores en una visión ejecutiva del riesgo de fallo, con análisis técnico, interpretabilidad y dashboard interactivo.
 
+## Guía rápida de arranque
+
+Antes de ejecutar el proyecto, revisa la guía detallada en `guia_de_ejecucion.md`.
+
 ## Qué resuelve
 
 - anticipa fallos antes de que se produzcan;
