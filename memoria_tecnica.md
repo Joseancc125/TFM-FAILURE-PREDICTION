@@ -1,239 +1,123 @@
 # Memoria técnica del Trabajo Fin de Máster
 
-## 1. Introducción
+## 1. Resumen ejecutivo
 
-La digitalización industrial ha impulsado la instrumentación de máquinas y equipos mediante sensores capaces de registrar, de forma continua, variables operativas relevantes para la supervisión del estado de los activos. Este contexto abre la puerta al uso de técnicas de analítica avanzada y aprendizaje automático para anticipar degradaciones, detectar comportamientos anómalos y apoyar la toma de decisiones en mantenimiento.
+Este Trabajo Fin de Máster desarrolla una solución de mantenimiento predictivo para maquinaria industrial a partir de datos de sensores. El objetivo es anticipar fallos, detectar señales de riesgo y apoyar la toma de decisiones con una visión clara para perfiles técnicos y de negocio.
 
-En este Trabajo Fin de Máster se ha desarrollado una solución de Inteligencia Artificial aplicada a un conjunto de datos industrial proporcionado por el tutor, cuyo objetivo es determinar si una máquina presenta un fallo (`fail`) a partir de lecturas de distintos sensores. El proyecto no se limita a construir un clasificador, sino que integra análisis exploratorio, preparación de datos, ingeniería de características, detección de anomalías, modelado supervisado, interpretabilidad y visualización ejecutiva.
+La solución integra análisis exploratorio, limpieza de datos, ingeniería de características, detección de anomalías, modelos supervisados, explicabilidad y un dashboard orientado a la dirección y mantenimiento.
 
-## 2. Objetivo y alcance
+## 2. Objetivo del proyecto
 
-El objetivo general del trabajo es diseñar e implementar un sistema inteligente capaz de analizar el estado operativo de los equipos y generar alertas tempranas de riesgo con utilidad práctica para un entorno de negocio y mantenimiento industrial.
+El propósito principal es transformar lecturas de sensores en información útil para actuar antes de que ocurra un fallo.
 
-De forma específica, la solución persigue:
+En términos prácticos, el proyecto busca:
 
-- analizar el comportamiento de las señales disponibles;
-- detectar patrones anómalos de funcionamiento;
-- predecir la probabilidad de fallo de la máquina;
-- comparar distintos algoritmos de Machine Learning;
-- interpretar los factores con mayor influencia en la predicción;
-- presentar los resultados en un dashboard comprensible para usuarios no técnicos.
+- identificar comportamientos anómalos;
+- estimar el riesgo de fallo;
+- comparar varios modelos predictivos;
+- explicar qué señales influyen más en la decisión;
+- mostrar el resultado de forma visual y comprensible.
 
-El alcance del proyecto se ha mantenido alineado con un enfoque realista de TFM: una solución completa y funcional sobre un dataset acotado, con foco en la trazabilidad técnica y la utilidad operativa.
+## 3. Datos utilizados
 
-## 3. Dataset y significado de las variables
+El dataset contiene 944 registros con señales industriales como `footfall`, `tempMode`, `AQ`, `USS`, `CS`, `VOC`, `RP`, `IP`, `Temperature` y la variable objetivo `fail`.
 
-El dataset contiene 944 registros con las variables siguientes:
+La lectura de negocio es sencilla: cada fila representa una condición de operación de la máquina y la etiqueta indica si ese estado terminó en fallo o no. El reto consiste en reconocer patrones previos al fallo y no solo clasificar un caso ya cerrado.
 
-- `footfall`: número de personas u objetos cercanos a la máquina;
-- `tempMode`: modo de funcionamiento térmico;
-- `AQ`: índice de calidad del aire;
-- `USS`: sensor ultrasónico;
-- `CS`: sensor de corriente eléctrica;
-- `VOC`: nivel de compuestos orgánicos volátiles;
-- `RP`: posición rotacional o RPM;
-- `IP`: presión de entrada;
-- `Temperature`: temperatura de operación;
-- `fail`: indicador binario de fallo.
+## 4. Qué reveló el análisis inicial
 
-Desde una perspectiva industrial, estas señales reflejan condiciones de entorno, carga de funcionamiento, comportamiento térmico y comportamiento eléctrico/mecánico. La hipótesis de trabajo es que la combinación de estas medidas permite identificar estados previos al fallo y no únicamente el fallo una vez producido.
+El análisis exploratorio mostró una base de datos completa y coherente:
 
-## 4. Fase 1. Comprensión del problema y análisis exploratorio
+- 944 registros originales;
+- 0 valores nulos;
+- 1 duplicado eliminado;
+- distribución de clases razonablemente equilibrada.
 
-Se realizó un análisis exploratorio inicial para comprender la estructura del conjunto de datos, la calidad de la información y la distribución de la variable objetivo.
+La variable objetivo presenta:
 
-### Resultados principales
+- clase 0: 551 registros, 58.37%;
+- clase 1: 393 registros, 41.63%.
 
-- Registros originales: 944.
-- Clases de la variable objetivo:
-  - clase 0: 551 registros, 58.37%;
-  - clase 1: 393 registros, 41.63%.
-- Valores nulos: 0.
-- Registros duplicados detectados: 1.
+Esto significa que el problema no está condicionado por falta de datos, sino por la necesidad de capturar señal útil dentro de las variables de sensores.
 
-### Interpretación técnica y de negocio
+## 5. Preparación de los datos
 
-La exploración confirmó que el problema no está condicionado por una ausencia de información, sino por la necesidad de extraer señal operativa útil a partir de variables de sensores. La distribución de clases, aunque no extremadamente desbalanceada, justifica el uso de métricas sensibles a la clase positiva, especialmente `recall`, `precision`, `F1` y `PR-AUC`, dado que en mantenimiento industrial un fallo no detectado puede tener un coste mayor que un falso positivo.
+La preparación se centró en asegurar una base limpia y reproducible:
 
-Desde el punto de vista de negocio, el evento relevante es `fail`. El valor de la solución no depende únicamente de acertar globalmente, sino de detectar con antelación los casos de mayor riesgo y reducir paradas no planificadas.
+- eliminación del duplicado;
+- separación estratificada en train y test;
+- uso de un preprocesamiento consistente.
 
-## 5. Fase 2. Calidad y preparación de los datos
+La proporción de fallos se mantuvo estable entre subconjuntos, lo que da confianza en la comparación posterior de modelos.
 
-### Resumen de calidad
+## 6. Ingeniería de características
 
-- Registros originales: 944.
-- Registros limpios: 943.
-- Duplicados eliminados: 1.
-- Valores nulos: 0.
+Se crearon 11 variables derivadas para resumir mejor el estado operativo del equipo. Entre las más relevantes destacan `risk_score`, `machine_health_index`, `air_pressure_ratio`, `air_risk` y `sensor_gap`.
 
-### Decisiones adoptadas
+La idea es simple: en lugar de depender solo de sensores aislados, se construyen indicadores más cercanos al lenguaje operativo del mantenimiento. Esto mejora la capacidad del modelo para detectar degradación y también hace la solución más fácil de interpretar.
 
-- eliminación del registro duplicado;
-- partición estratificada en entrenamiento y prueba;
-- aplicación de un preprocesamiento consistente y reutilizable.
+## 7. Detección de anomalías
 
-### Justificación
-
-No fue necesaria imputación de valores faltantes, ya que el conjunto de datos estaba completo. La eliminación del duplicado fue suficiente para depurar la base. La división estratificada garantizó que la proporción de fallos se mantuviera estable entre entrenamiento y prueba, evitando una evaluación artificialmente optimista o pesimista.
-
-La fase generó 754 observaciones de entrenamiento y 189 de prueba, con tasas de fallo muy similares entre subconjuntos:
-
-- train: 41.64%;
-- test: 41.80%;
-- global: 41.68%.
-
-Esta consistencia refuerza la validez de las métricas obtenidas en las etapas posteriores.
-
-## 6. Fase 3. Ingeniería de características
-
-Con el objetivo de capturar relaciones más informativas entre sensores, se generaron 11 variables derivadas a partir de transformaciones y combinaciones de las señales originales.
-
-### Variables destacadas
-
-- `risk_score`;
-- `machine_health_index`;
-- `air_pressure_ratio`;
-- `air_risk`;
-- `sensor_gap`;
-- `sensor_stability`;
-- `operating_intensity`;
-- `mechanical_pressure`;
-- `control_balance`;
-- `thermal_load`.
-
-### Criterio de diseño
-
-La ingeniería de características se diseñó con una lógica de dominio industrial: representar el estado de la máquina no solo a partir de lecturas individuales, sino mediante indicadores agregados que sinteticen riesgo, carga operativa y salud relativa del equipo.
-
-Por ejemplo:
-
-- `machine_health_index` permite traducir múltiples señales a una escala operativa comprensible;
-- `risk_score` condensa el riesgo agregado en un indicador único;
-- ratios y combinaciones entre presión, temperatura y señales eléctricas permiten capturar estados de carga o degradación difíciles de apreciar con variables aisladas.
-
-### Validación posterior
-
-La interpretabilidad del modelo confirmó la utilidad de estas transformaciones: `risk_score` y `machine_health_index` aparecieron entre las variables más influyentes, lo que respalda que la información derivada aportó valor real al proceso de predicción.
-
-## 7. Fase 4. Detección de anomalías
-
-Se incorporaron dos técnicas de detección de anomalías no supervisadas:
+Se probaron dos enfoques no supervisados:
 
 - Isolation Forest;
 - Local Outlier Factor (LOF).
 
-### Resultados obtenidos
+### Imagen de referencia
 
-| Modelo | ROC-AUC test | PR-AUC test | Precision | Recall | F1 |
-|---|---:|---:|---:|---:|---:|
-| Isolation Forest | 0.5206 | 0.4455 | 0.4231 | 0.1392 | 0.2095 |
-| LOF | 0.5341 | 0.4706 | 0.5000 | 0.1519 | 0.2330 |
+![Importancia global de variables](reports/figures/phase6/feature_importance.png)
 
-### Valor metodológico
+![Explicabilidad SHAP](reports/figures/phase6/shap_importance.png)
 
-Aunque el rendimiento de estas técnicas es inferior al de los modelos supervisados, su papel es relevante como capa complementaria. En escenarios industriales, una anomalía no implica necesariamente un fallo inminente, pero sí puede señalar una desviación de comportamiento que merece atención.
+Los resultados de anomalías fueron modestos frente al modelo supervisado, pero útiles como capa complementaria. En un contexto industrial, una anomalía no equivale necesariamente a fallo, pero sí a una situación que conviene vigilar.
 
-LOF mostró un rendimiento ligeramente superior a Isolation Forest, lo que sugiere que la estructura local del espacio de variables contiene señal útil. Aun así, por sí sola, esta información no resulta suficiente para una predicción robusta del fallo.
+## 8. Predicción de fallos
 
-## 8. Fase 5. Predicción de fallos
-
-Se compararon tres modelos supervisados:
+Se compararon tres modelos:
 
 - Random Forest;
 - XGBoost;
 - LightGBM.
 
-### Resultados en el conjunto de prueba
+El mejor resultado lo obtuvo **Random Forest**, con `F1 = 0.9157` y `ROC-AUC = 0.9732` en test.
 
-| Modelo | ROC-AUC | PR-AUC | Precision | Recall | F1 |
-|---|---:|---:|---:|---:|---:|
-| Random Forest | 0.9732 | 0.9570 | 0.8736 | 0.9620 | 0.9157 |
-| XGBoost | 0.9659 | 0.9499 | 0.8409 | 0.9367 | 0.8862 |
-| LightGBM | 0.9611 | 0.9393 | 0.8571 | 0.9114 | 0.8834 |
+La lectura ejecutiva es clara: el modelo distingue bien entre estados normales y estados de riesgo, y además detecta un porcentaje muy alto de fallos, que es precisamente lo más valioso para mantenimiento.
 
-### Elección del modelo final
+## 9. Interpretación del resultado
 
-El modelo seleccionado fue **Random Forest**, al presentar el mejor equilibrio entre capacidad discriminativa, sensibilidad ante fallos y estabilidad general en prueba.
+Las variables más influyentes fueron `risk_score`, `machine_health_index`, `VOC`, `air_pressure_ratio`, `air_risk` y `sensor_gap`.
 
-### Criterios de selección
+Esto confirma dos ideas importantes:
 
-- mejor `F1` en test;
-- mayor `ROC-AUC`;
-- `recall` muy elevado, esencial para minimizar fallos no detectados;
-- comportamiento consistente y fácil de explicar mediante importancia de variables.
+- las variables derivadas aportan más valor que los sensores tomados de forma aislada;
+- el sistema está capturando una señal operativa coherente con la degradación de la máquina.
 
-### Umbral de decisión
+## 10. Dashboard
 
-El umbral óptimo seleccionado fue 0.4375. Este valor se eligió buscando maximizar el equilibrio entre precisión y recall, con prioridad operativa en la detección temprana de fallos.
+Se construyó un dashboard con Streamlit para mostrar el resultado de forma ejecutiva.
 
-### Implicación operativa
+La interfaz prioriza:
 
-El modelo final permite asignar una probabilidad de fallo a cada registro y utilizar dicha probabilidad para priorizar inspecciones, programar mantenimiento preventivo y reducir el riesgo de paradas inesperadas.
+- el riesgo estimado;
+- el modelo recomendado;
+- las señales que más pesan;
+- las anomalías detectadas;
+- la salud global de la máquina.
 
-## 9. Fase 6. Interpretación de resultados
+La información técnica completa queda disponible, pero no domina la primera lectura del panel.
 
-Se aplicaron dos técnicas de interpretabilidad:
+## 11. Conclusión general
 
-- Feature Importance;
-- SHAP.
+La solución desarrollada cumple el objetivo principal del TFM: convertir datos de sensores en una herramienta práctica para anticipar fallos y apoyar decisiones de mantenimiento.
 
-### Variables con mayor influencia
+El punto más sólido del proyecto es la combinación de ingeniería de características, modelado supervisado e interpretabilidad. Esa combinación permite no solo predecir bien, sino explicar por qué el modelo toma cada decisión.
 
-Las variables más relevantes fueron:
+## 12. Líneas de mejora
 
-- `risk_score`;
-- `machine_health_index`;
-- `VOC`;
-- `air_pressure_ratio`;
-- `air_risk`;
-- `sensor_gap`.
+Como evolución futura, sería recomendable:
 
-### Lectura técnica
-
-La interpretación confirma que las variables derivadas concentran una parte importante de la capacidad predictiva. Esto refuerza la idea de que la incorporación de conocimiento de dominio en forma de indicadores sintéticos mejora tanto el rendimiento como la explicabilidad.
-
-Las señales relacionadas con riesgo agregado y salud operativa resultaron más informativas que varios sensores tomados de forma independiente, lo cual es coherente con un escenario industrial en el que la degradación suele manifestarse como combinación de síntomas.
-
-## 10. Fase 7. Visualización y dashboard
-
-Se desarrolló un dashboard interactivo con Streamlit orientado a perfiles no técnicos y a usuarios de negocio.
-
-### Elementos incluidos
-
-- resumen ejecutivo del estado de la máquina;
-- recomendación del modelo final;
-- indicadores principales de riesgo;
-- comparativa técnica de modelos en una vista secundaria;
-- distribución del riesgo estimado;
-- impacto operativo de las predicciones;
-- variables más influyentes;
-- anomalías detectadas;
-- indicador ejecutivo de salud de la máquina.
-
-### Criterios de diseño
-
-La interfaz prioriza la comprensión y la toma de decisiones. Por ello, el lenguaje visual y textual se ha adaptado a una audiencia de mantenimiento, operaciones o dirección, manteniendo el detalle técnico en secciones plegables o de consulta secundaria.
-
-## 11. Limitaciones
-
-El trabajo presenta las limitaciones propias de un TFM con un dataset acotado:
-
-- el tamaño del conjunto de datos es limitado para una validación de generalización amplia;
-- la variable `fail` no incorpora información temporal del proceso de degradación;
-- la capa de anomalías complementa, pero no sustituye, la predicción supervisada;
-- no se ha desplegado una solución completa de MLOps, monitorización continua ni API de producción.
-
-## 12. Conclusiones
-
-El modelo Random Forest se posiciona como la mejor alternativa final por rendimiento y equilibrio operativo. Además, la combinación de `risk_score`, `machine_health_index` y las señales derivadas demuestra que el conocimiento de dominio mejora de forma clara la calidad del sistema.
-
-## 13. Mejoras futuras
-
-Como líneas de evolución se proponen las siguientes:
-
-- ampliar el histórico de datos para validar robustez;
-- incorporar dimensión temporal a las variables de proceso;
-- calibrar probabilidades y umbrales por criticidad del activo;
-- añadir alertas automáticas y monitorización continua;
-- desplegar el sistema mediante API o plataforma de explotación;
-- incorporar herramientas MLOps como MLflow o Docker.
+- ampliar el volumen de datos históricos;
+- incorporar la dimensión temporal;
+- ajustar umbrales según criticidad del activo;
+- añadir alertas automáticas;
+- desplegar una API o un sistema de monitorización en producción.
