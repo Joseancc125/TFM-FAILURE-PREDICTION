@@ -1,0 +1,5 @@
+model,split,contamination,roc_auc,pr_auc,precision,recall,f1
+isolation_forest,train,0.15,0.4223,0.3589,0.3186,0.1146,0.1686
+isolation_forest,test,0.15,0.5206,0.4455,0.4231,0.1392,0.2095
+lof,train,0.15,0.4634,0.4035,0.4327,0.1433,0.2153
+lof,test,0.15,0.5341,0.4706,0.5,0.1519,0.233
