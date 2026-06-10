@@ -1,20 +1,20 @@
 # Guía de ejecución del proyecto
 
-> **⚡ IMPORTANTE: EJECUCIÓN RÁPIDA (DASHBOARD)**
-> Dado que este proyecto ya tiene todas sus fases ejecutadas y los datos procesados están disponibles, **no es necesario ejecutar todos los pasos**. Para visualizar los resultados rápidamente, solo tienes que abrir PowerShell en la raíz del proyecto y ejecutar lo siguiente:
-> 
-> **1. Crear el entorno virtual:**
-> `python -m venv .venv`
-> 
-> **2. Activar el entorno virtual:**
-> `.\.venv\Scripts\Activate.ps1`
-> 
-> **3. Instalar las dependencias directamente en el .venv:**
-> `.\.venv\Scripts\python.exe -m pip install --upgrade pip`
-> `.\.venv\Scripts\python.exe -m pip install -r requirements.txt`
-> 
-> **4. Ejecutar directamente el dashboard:**
-> `python -m streamlit run dashboard/app.py`
+**⚡ IMPORTANTE: EJECUCIÓN RÁPIDA (DASHBOARD)**
+Dado que este proyecto ya tiene todas sus fases ejecutadas y los datos procesados están disponibles, **no es necesario ejecutar todos los pasos**. Para visualizar los resultados rápidamente, solo tienes que abrir PowerShell en la raíz del proyecto y ejecutar lo siguiente:
+ 
+**1. Crear el entorno virtual:**
+`python -m venv .venv`
+
+**2. Activar el entorno virtual:**
+`.\.venv\Scripts\Activate.ps1`
+ 
+**3. Instalar las dependencias directamente en el .venv:**
+`.\.venv\Scripts\python.exe -m pip install --upgrade pip`
+`.\.venv\Scripts\python.exe -m pip install -r requirements.txt`
+ 
+**4. Ejecutar directamente el dashboard:**
+`python -m streamlit run dashboard/app.py`
 
 
 Esta guía explica cómo preparar el entorno y ejecutar cada fase del proyecto de monitorización y predicción de fallos.
