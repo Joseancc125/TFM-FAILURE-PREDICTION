@@ -5,15 +5,12 @@ Dado que este proyecto ya tiene todas sus fases ejecutadas y los datos procesado
  
 **1. Crear el entorno virtual:**
 `python -m venv .venv`
-
-**2. Activar el entorno virtual:**
-`.\.venv\Scripts\Activate.ps1`
  
-**3. Instalar las dependencias directamente en el .venv:**
+**2. Instalar las dependencias directamente en el .venv:**
 `.\.venv\Scripts\python.exe -m pip install --upgrade pip`
 `.\.venv\Scripts\python.exe -m pip install -r requirements.txt`
  
-**4. Ejecutar directamente el dashboard:**
+**3. Ejecutar directamente el dashboard:**
 `python -m streamlit run dashboard/app.py`
 
 
